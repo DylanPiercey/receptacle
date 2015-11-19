@@ -42,23 +42,34 @@ var newCacheFromJSON = new Receptacle(JSON.parse(serialized));
 
 # API
 
-##`Receptacle({ size=Infinity, items=[] })`: Create a new cache.
+###`Receptacle({ size=Infinity, items=[] }):`
+Create a new cache.
 
-##`#max`: Get the maximum size of the cache (default of Infinity).
+###`#max:`
+Get the maximum size of the cache (default of Infinity).
 
-##`#size`: Get the current number of items in the cache.
+###`#size:`
+Get the current number of items in the cache.
 
-##`#has(key)`: Check if a key is in the cache, even if it's undefined.
+###`#has(key):`
+Check if a key is in the cache, even if it's undefined.
 
-##`#get(key)`: Retreive a key from the cache.
+###`#get(key):`
+Retreive a key from the cache.
 
-##`#set(key, value, options)`: Set a key in the cache, optionally setting a `ttl` option that will cause the value to expire.
+###`#set(key, value, options):`
+Set a key in the cache, optionally setting a `ttl` option that will cause the value to expire.
 
-##`#delete(key)`: Immediately remove a key from the cache.
+###`#delete(key):`
+Immediately remove a key from the cache.
 
-##`#expire(key, [ms=0])`: Update the expire time for a key.
+###`#expire(key, [ms=0]):`
+Update the expire time for a key.
 
-##`#clear()`: Remove all keys from the cache.
+###`#clear():`
+Remove all keys from the cache.
+
+---
 
 ### Contributions
 
