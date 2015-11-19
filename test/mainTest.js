@@ -9,6 +9,7 @@ describe("Receptacle", function () {
 			cache.set("b", undefined);
 			assert.equal(cache.has("a"), true);
 			assert.equal(cache.has("b"), true);
+			console.log(cache);
 		});
 
 		it("should return false when a key is not in use", function () {

@@ -42,8 +42,11 @@ var newCacheFromJSON = new Receptacle(JSON.parse(serialized));
 
 # API
 
-###`Receptacle({ max=Infinity, items=[] })`
+###`Receptacle({ max=Infinity, items=[], id=# })`
 Create a new cache.
+
+###`#id`
+Each cache is assigned a unique id for organizing, you can optionally provide an id during instanciation.
 
 ###`#max`
 Get the maximum size of the cache (default of Infinity).

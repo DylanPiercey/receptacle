@@ -1,5 +1,8 @@
 module.exports = Receptacle;
 var cache      = Receptacle.prototype;
+var counter    = new Date % 1e9;
+
+function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++); }
 
 /**
  * Creates a cache with a maximum key size.
@@ -11,6 +14,7 @@ var cache      = Receptacle.prototype;
  */
 function Receptacle (options) {
 	options    = options || {};
+	this.id    = options.id || getUID();
 	this.max   = options.max || Infinity;
 	this.items = options.items || [];
 	this.size  = this.items.length;
