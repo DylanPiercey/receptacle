@@ -1,0 +1,25 @@
+{
+  "name": "receptacle",
+  "version": "0.1.0",
+  "description": "In memory cache lru cache with ttl support.",
+  "author": "Dylan Piercey <pierceydylan@gmail.com>",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DylanPiercey/receptacle"
+  },
+  "keywords": [
+    "cache",
+    "lru",
+    "ttl",
+    "expires",
+    "map",
+    "receptacle",
+    "memory"
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.1.3"
+  }
+}
