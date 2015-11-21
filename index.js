@@ -13,11 +13,12 @@ function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++); }
  * @param {Array} [options.items=[]] the default items in the cache.
  */
 function Receptacle (options) {
-	options    = options || {};
-	this.id    = options.id || getUID();
-	this.max   = options.max || Infinity;
-	this.items = options.items || [];
-	this.size  = this.items.length;
+	options           = options || {};
+	this.id           = options.id || getUID();
+	this.max          = options.max || Infinity;
+	this.items        = options.items || [];
+	this.size         = this.items.length;
+	this.lastModified = new Date(options.lastModified || new Date);
 
 	// Setup initial timers and indexes for the cache.
 	for (var item, ttl, i = this.items.length; i--;) {
@@ -63,8 +64,9 @@ cache.get = function (key) {
  * @return {Receptacle}
  */
 cache.set = function (key, value, options) {
-	var oldRecord = this.items[key];
-	var record    = this.items[key] = { key: key, value: value };
+	var oldRecord     = this.items[key];
+	var record        = this.items[key] = { key: key, value: value };
+	this.lastModified = new Date();
 
 	if (oldRecord) {
 		// Replace an old key.
@@ -80,6 +82,7 @@ cache.set = function (key, value, options) {
 
 	// Setup key expiry.
 	if (options && "ttl" in options) this.expire(key, options.ttl);
+	// Mark cache as modified.
 
 	return this;
 };
@@ -93,6 +96,7 @@ cache.set = function (key, value, options) {
 cache.delete = function (key) {
 	var record = this.items[key];
 	if (!record) return false;
+	this.lastModified = new Date();
 	this.items.splice(this.items.indexOf(record), 1);
 	clearTimeout(record.timeout);
 	delete this.items[key];
@@ -126,7 +130,28 @@ cache.expire = function (key, ms) {
  */
 cache.clear = function () {
 	for (var i = this.items.length; i--;) clearTimeout(this.items[i].timeout);
+	this.lastModified = new Date();
 	this.items = [];
 	this.size  = 0;
 	return this;
+};
+
+/**
+ * Fixes serialization issues in polyfilled environments.
+ * Ensures non-cyclical serialized object.
+ */
+cache.toJSON = function () {
+	var items = new Array(this.items.length);
+	var item;
+	for (var i = items.length; i--;) {
+		item = this.items[i];
+		items[i] = { key: item.key, value: item.value, expires: item.expires };
+	}
+
+	return {
+		id:           this.id,
+		max:          this.max,
+		lastModified: this.lastModified,
+		items:        items
+	};
 };
