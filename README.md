@@ -67,6 +67,7 @@ Retreive a key from the cache.
 
 ###`#set(key, value, options)`
 Set a key in the cache, optionally setting a `ttl` option that will cause the value to expire.
+If a `refresh` option is `true` the ttl will automatically reset when the `key` is accessed.
 
 ###`#delete(key)`
 Immediately remove a key from the cache.
