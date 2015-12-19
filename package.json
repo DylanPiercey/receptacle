@@ -1,6 +1,6 @@
 {
   "name": "receptacle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "In memory cache lru cache with ttl support.",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "main": "index.js",

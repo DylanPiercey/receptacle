@@ -115,9 +115,12 @@ cache.delete = function (key) {
  * @return {Receptacle}
  */
 cache.expire = function (key, ttl) {
-	var ms     = toMS(ttl || 0);
+	var ms = ttl || 0;
 	var record = this.items[key];
 	if (!record) return this;
+	if (typeof ms === "string") ms = toMS(ttl);
+	if (typeof ms !== "number")
+		throw new TypeError("Expiration time must be a string or number.");
 	record.timeout = setTimeout(this.delete.bind(this, record.key), ms);
 	record.expires = ms + new Date;
 	return this;
