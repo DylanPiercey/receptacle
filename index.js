@@ -1,4 +1,7 @@
+"use strict";
+
 module.exports = Receptacle;
+var toMS       = require("ms");
 var cache      = Receptacle.prototype;
 var counter    = new Date % 1e9;
 
@@ -25,7 +28,7 @@ function Receptacle (options) {
 		item = this.items[i];
 		ttl  = new Date(item.expires) - new Date;
 		this.items[item.key] = item;
-		if (ttl > 0) this._timeout(item.key, ttl);
+		if (ttl > 0) this.expire(item.key, ttl);
 	}
 }
 
@@ -111,13 +114,9 @@ cache.delete = function (key) {
  * @param {Number} [ms] - the timeout before removal.
  * @return {Receptacle}
  */
-cache.expire = function (key, ms) {
-	ms         = ms || 0;
+cache.expire = function (key, ttl) {
+	var ms     = toMS(ttl || 0);
 	var record = this.items[key];
-
-	if (typeof ms !== "number" || isNaN(ms) || ms < 0)
-		throw new TypeError("Receptacle TTL must be a positive number.");
-
 	if (!record) return this;
 	record.timeout = setTimeout(this.delete.bind(this, record.key), ms);
 	record.expires = ms + new Date;

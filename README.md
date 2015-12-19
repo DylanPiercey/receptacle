@@ -67,7 +67,7 @@ Set a key in the cache, optionally setting a `ttl` option that will cause the va
 Immediately remove a key from the cache.
 
 ###`#expire(key, [ms=0])`
-Update the expire time for a key.
+Update the expire time for a key. You can also use any valid [ms](https://github.com/rauchg/ms.js) string for a timeout.
 
 ###`#clear()`
 Remove all keys from the cache.

@@ -1,6 +1,6 @@
 {
   "name": "receptacle",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "In memory cache lru cache with ttl support.",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "main": "index.js",
@@ -21,5 +21,8 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.1.3"
+  },
+  "dependencies": {
+    "ms": "^0.7.1"
   }
 }
