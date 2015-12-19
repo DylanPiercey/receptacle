@@ -44,6 +44,24 @@ describe("Receptacle", function () {
 			}, 201);
 		});
 
+		it("should auto reset a expiry for a 'reset' key", function (done) {
+			var cache = new Receptacle;
+			cache.set("a", 1, { ttl: 200, refresh: true });
+			assert.equal(cache.get("a"), 1);
+
+			setTimeout(function () {
+				assert.equal(cache.get("a"), 1);
+				setTimeout(function () {
+					assert.equal(cache.get("a"), 1);
+					setTimeout(function () {
+						assert.equal(cache.get("a"), null);
+						done();
+					}, 201);
+				}, 150);
+			}, 150)
+
+		});
+
 		it("should maintain most recently used items", function () {
 			var cache = new Receptacle({ size: 3 });
 			cache
@@ -101,7 +119,7 @@ describe("Receptacle", function () {
 				.set("a", 1)
 				.set("b", 2)
 				.set("c", 3);
-			
+
 			assert.equal(cache.size, 3);
 			cache.clear();
 			assert.equal(cache.size, 0);

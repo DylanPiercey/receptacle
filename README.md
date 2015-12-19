@@ -22,6 +22,11 @@ cache.has("item"); //-> true
 cache.expire("item", 50); //-> Expire in 50ms (instead of 100).
 cache.delete("item"); //-> Delete item right away.
 cache.clear(); //-> Empty the cache.
+
+// You can also use the "refresh" option to automatically reset a keys expiration when accessed.
+cache.set("item", 1, { ttl: 100, refresh: true });
+// 50ms later
+cache.get("item"); // Resets timer back to 100ms.
 ```
 
 # Serialization
