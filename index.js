@@ -61,6 +61,19 @@ cache.get = function (key) {
 };
 
 /**
+ * Retrieves user meta data for a cached item.
+ *
+ * @param {String} key - the key to retrieve meta data from the cache.
+ * @return {*}
+ */
+cache.meta = function (key) {
+	if (!this.has(key)) return null;
+	var record = this.items[key];
+	if (!("meta" in record)) return null;
+	return record.meta;
+}
+
+/**
  * Puts a key into the cache with an optional expiry time.
  *
  * @param {String} key - the key for the value in the cache.
@@ -89,6 +102,8 @@ cache.set = function (key, value, options) {
 	if (options) {
 		// Setup key expiry.
 		if ("ttl" in options) this.expire(key, options.ttl);
+		// Store user options in the record.
+		if ("meta" in options) record.meta = options.meta;
 		// Mark a auto refresh key.
 		if (options.refresh) record.refresh = options.ttl;
 	}
@@ -125,8 +140,7 @@ cache.expire = function (key, ttl) {
 	var record = this.items[key];
 	if (!record) return this;
 	if (typeof ms === "string") ms = toMS(ttl);
-	if (typeof ms !== "number")
-		throw new TypeError("Expiration time must be a string or number.");
+	if (typeof ms !== "number") throw new TypeError("Expiration time must be a string or number.");
 	clearTimeout(record.timeout);
 	record.timeout = setTimeout(this.delete.bind(this, record.key), ms);
 	record.expires = Number(new Date) + ms;
@@ -153,9 +167,10 @@ cache.toJSON = function () {
 		item = this.items[i];
 		items[i] = {
 			key:     item.key,
+			meta:    item.meta,
 			value:   item.value,
 			expires: item.expires,
-			refresh: item.refresh
+			refresh: item.refresh,
 		};
 	}
 

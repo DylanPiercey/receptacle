@@ -27,6 +27,11 @@ cache.clear(); //-> Empty the cache.
 cache.set("item", 1, { ttl: 100, refresh: true });
 // 50ms later
 cache.get("item"); // Resets timer back to 100ms.
+
+// And store meta data about values.
+cache.set("item", 1, { meta: { custom: 1 } });
+// Then retrieve it.
+cache.meta("item"); //-> { custom: 1 }
 ```
 
 # Serialization
@@ -64,6 +69,9 @@ Check if a key is in the cache, even if it's undefined.
 
 ###`#get(key)`
 Retreive a key from the cache.
+
+###`#meta(key)`
+If a meta option was used with setting an item in the cache it will be returned.
 
 ###`#set(key, value, options)`
 Set a key in the cache, optionally setting a `ttl` option that will cause the value to expire.

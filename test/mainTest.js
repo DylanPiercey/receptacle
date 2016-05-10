@@ -32,6 +32,21 @@ describe("Receptacle", function () {
 		});
 	});
 
+	describe("#meta", function () {
+		it("should return a set key", function () {
+			var cache = new Receptacle;
+			cache.set("a", 1, { meta: { custom: 1} });
+			cache.set("b", 1);
+			assert.deepEqual(cache.meta("a"), { custom: 1 });
+			assert.equal(cache.meta("b"), null);
+		});
+
+		it("should return null when a key is missing", function () {
+			var cache = new Receptacle;
+			assert.equal(cache.meta("a"), null);
+		});
+	});
+
 	describe("#set", function () {
 		it("should add a key to the cache that will expire", function (done) {
 			var cache = new Receptacle;
