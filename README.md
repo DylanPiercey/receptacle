@@ -1,16 +1,65 @@
-# Receptacle.
+<h1 align="center">
+  <!-- Logo -->
+  Receptacle
+
+  <br/>
+
+  <!-- Stability -->
+  <a href="https://nodejs.org/api/documentation.html#documentation_stability_index">
+    <img src="https://img.shields.io/badge/stability-stable-brightgreen.svg?style=flat-square" alt="API stability"/>
+  </a>
+  <!-- Standard -->
+  <a href="https://github.com/feross/standard">
+    <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="Standard"/>
+  </a>
+  <!-- NPM version -->
+  <a href="https://npmjs.org/package/receptacle">
+    <img src="https://img.shields.io/npm/v/receptacle.svg?style=flat-square" alt="NPM version"/>
+  </a>
+  <!-- Travis build -->
+  <a href="https://travis-ci.org/DylanPiercey/receptacle">
+  <img src="https://img.shields.io/travis/DylanPiercey/receptacle.svg?style=flat-square" alt="Build status"/>
+  </a>
+  <!-- Coveralls coverage -->
+  <a href="https://coveralls.io/github/DylanPiercey/receptacle">
+    <img src="https://img.shields.io/coveralls/DylanPiercey/receptacle.svg?style=flat-square" alt="Test Coverage"/>
+  </a>
+  <!-- File size -->
+  <a href="https://github.com/DylanPiercey/receptacle/blob/master/dist/receptacle.js">
+    <img src="https://badge-size.herokuapp.com/DylanPiercey/receptacle/master/dist/receptacle.js?style=flat-square" alt="File size"/>
+  </a>
+  <!-- Downloads -->
+  <a href="https://npmjs.org/package/receptacle">
+    <img src="https://img.shields.io/npm/dm/receptacle.svg?style=flat-square" alt="Downloads"/>
+  </a>
+  <!-- Gitter chat -->
+  <a href="https://gitter.im/DylanPiercey/receptacle">
+    <img src="https://img.shields.io/gitter/room/DylanPiercey/receptacle.svg?style=flat-square" alt="Gitter Chat"/>
+  </a>
+</h1>
+
 In memory cache for node and the browser that supports `lru` and `ttl` algorithms.
 
 Items in the cache will move to the back queue when accessed and any key can optionally have an expiry time.
 
-# Installation
+## Installation
+
 
 #### Npm
 ```console
 npm install receptacle
 ```
 
-# Example
+#### [Download](https://raw.githubusercontent.com/DylanPiercey/receptacle/master/dist/receptacle.js)
+```html
+<script type="text/javascript" src="receptacle.js"></script>
+<script>
+    define(['receptacle'], function (receptacle) {...}) // AMD
+    window.receptacle // Global rill if no module system in place.
+</script>
+```
+
+## Example
 
 ```js
 var Receptacle = require('receptacle');
@@ -34,7 +83,7 @@ cache.set("item", 1, { meta: { custom: 1 } });
 cache.meta("item"); //-> { custom: 1 }
 ```
 
-# Serialization
+## Serialization
 You can easily serialize and rehydrate your cache as JSON.
 
 ```js
@@ -50,7 +99,7 @@ var newCacheFromJSON = new Receptacle(JSON.parse(serialized));
 
 ```
 
-# API
+## API
 
 ###`Receptacle({ max=Infinity, items=[], id=# })`
 Create a new cache.
@@ -90,6 +139,6 @@ Remove all keys from the cache.
 
 ### Contributions
 
-* Use gulp to run tests.
+* Use `npm test` to run tests.
 
 Please feel free to create a PR!

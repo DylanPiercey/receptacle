@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-module.exports = Receptacle;
-var toMS       = require("ms");
-var cache      = Receptacle.prototype;
-var counter    = new Date % 1e9;
+module.exports = Receptacle
+var toMS = require('ms')
+var cache = Receptacle.prototype
+var counter = new Date() % 1e9
 
-function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++); }
+function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++) }
 
 /**
  * Creates a cache with a maximum key size.
@@ -16,20 +16,20 @@ function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++); }
  * @param {Array} [options.items=[]] the default items in the cache.
  */
 function Receptacle (options) {
-	options           = options || {};
-	this.id           = options.id || getUID();
-	this.max          = options.max || Infinity;
-	this.items        = options.items || [];
-	this.size         = this.items.length;
-	this.lastModified = new Date(options.lastModified || new Date);
+  options = options || {}
+  this.id = options.id || getUID()
+  this.max = options.max
+  this.items = options.items || []
+  this.size = this.items.length
+  this.lastModified = new Date(options.lastModified || new Date())
 
-	// Setup initial timers and indexes for the cache.
-	for (var item, ttl, i = this.items.length; i--;) {
-		item = this.items[i];
-		ttl  = new Date(item.expires) - new Date;
-		this.items[item.key] = item;
-		if (ttl > 0) this.expire(item.key, ttl);
-	}
+  // Setup initial timers and indexes for the cache.
+  for (var item, ttl, i = this.items.length; i--;) {
+    item = this.items[i]
+    ttl = new Date(item.expires) - new Date()
+    this.items[item.key] = item
+    if (ttl > 0) this.expire(item.key, ttl)
+  }
 }
 
 /**
@@ -40,8 +40,8 @@ function Receptacle (options) {
  * @return {Boolean}
  */
 cache.has = function (key) {
-	return key in this.items;
-};
+  return key in this.items
+}
 
 /**
  * Retrieves a key from the cache and marks it as recently used.
@@ -50,15 +50,15 @@ cache.has = function (key) {
  * @return {*}
  */
 cache.get = function (key) {
-	if (!this.has(key)) return null;
-	var record = this.items[key];
-	// Update expiry for "refresh" keys
-	if (record.refresh) this.expire(key, record.refresh);
-	// Move to front of the line.
-	this.items.splice(this.items.indexOf(record), 1);
-	this.items.push(record);
-	return record.value;
-};
+  if (!this.has(key)) return null
+  var record = this.items[key]
+  // Update expiry for "refresh" keys
+  if (record.refresh) this.expire(key, record.refresh)
+  // Move to front of the line.
+  this.items.splice(this.items.indexOf(record), 1)
+  this.items.push(record)
+  return record.value
+}
 
 /**
  * Retrieves user meta data for a cached item.
@@ -67,10 +67,10 @@ cache.get = function (key) {
  * @return {*}
  */
 cache.meta = function (key) {
-	if (!this.has(key)) return null;
-	var record = this.items[key];
-	if (!("meta" in record)) return null;
-	return record.meta;
+  if (!this.has(key)) return null
+  var record = this.items[key]
+  if (!('meta' in record)) return null
+  return record.meta
 }
 
 /**
@@ -82,34 +82,34 @@ cache.meta = function (key) {
  * @return {Receptacle}
  */
 cache.set = function (key, value, options) {
-	var oldRecord = this.items[key];
-	var record    = this.items[key] = { key: key, value: value };
-	// Mark cache as modified.
-	this.lastModified = new Date();
+  var oldRecord = this.items[key]
+  var record = this.items[key] = { key: key, value: value }
+  // Mark cache as modified.
+  this.lastModified = new Date()
 
-	if (oldRecord) {
-		// Replace an old key.
-		clearInterval(oldRecord.timeout);
-		this.items.splice(this.items.indexOf(oldRecord), 1, record);
-	} else {
-		// Remove least used item if needed.
-		if (this.items.length >= this.max) this.delete(this.items[0].key);
-		// Add a new key.
-		this.items.unshift(record);
-		this.size++;
-	}
+  if (oldRecord) {
+    // Replace an old key.
+    clearInterval(oldRecord.timeout)
+    this.items.splice(this.items.indexOf(oldRecord), 1, record)
+  } else {
+    // Remove least used item if needed.
+    if (this.items.length >= this.max) this.delete(this.items[0].key)
+    // Add a new key.
+    this.items.unshift(record)
+    this.size++
+  }
 
-	if (options) {
-		// Setup key expiry.
-		if ("ttl" in options) this.expire(key, options.ttl);
-		// Store user options in the record.
-		if ("meta" in options) record.meta = options.meta;
-		// Mark a auto refresh key.
-		if (options.refresh) record.refresh = options.ttl;
-	}
+  if (options) {
+    // Setup key expiry.
+    if ('ttl' in options) this.expire(key, options.ttl)
+    // Store user options in the record.
+    if ('meta' in options) record.meta = options.meta
+    // Mark a auto refresh key.
+    if (options.refresh) record.refresh = options.ttl
+  }
 
-	return this;
-};
+  return this
+}
 
 /**
  * Deletes an item from the cache.
@@ -118,15 +118,15 @@ cache.set = function (key, value, options) {
  * @return {Receptacle}
  */
 cache.delete = function (key) {
-	var record = this.items[key];
-	if (!record) return false;
-	this.lastModified = new Date();
-	this.items.splice(this.items.indexOf(record), 1);
-	clearTimeout(record.timeout);
-	delete this.items[key];
-	this.size--;
-	return this;
-};
+  var record = this.items[key]
+  if (!record) return false
+  this.lastModified = new Date()
+  this.items.splice(this.items.indexOf(record), 1)
+  clearTimeout(record.timeout)
+  delete this.items[key]
+  this.size--
+  return this
+}
 
 /**
  * Utility to register a key that will be removed after some time.
@@ -136,15 +136,15 @@ cache.delete = function (key) {
  * @return {Receptacle}
  */
 cache.expire = function (key, ttl) {
-	var ms = ttl || 0;
-	var record = this.items[key];
-	if (!record) return this;
-	if (typeof ms === "string") ms = toMS(ttl);
-	if (typeof ms !== "number") throw new TypeError("Expiration time must be a string or number.");
-	clearTimeout(record.timeout);
-	record.timeout = setTimeout(this.delete.bind(this, record.key), ms);
-	record.expires = Number(new Date) + ms;
-	return this;
+  var ms = ttl || 0
+  var record = this.items[key]
+  if (!record) return this
+  if (typeof ms === 'string') ms = toMS(ttl)
+  if (typeof ms !== 'number') throw new TypeError('Expiration time must be a string or number.')
+  clearTimeout(record.timeout)
+  record.timeout = setTimeout(this.delete.bind(this, record.key), ms)
+  record.expires = Number(new Date()) + ms
+  return this
 }
 
 /**
@@ -152,32 +152,32 @@ cache.expire = function (key, ttl) {
  * @return {Receptacle}
  */
 cache.clear = function () {
-	for (var i = this.items.length; i--;) this.delete(this.items[i].key);
-	return this;
-};
+  for (var i = this.items.length; i--;) this.delete(this.items[i].key)
+  return this
+}
 
 /**
  * Fixes serialization issues in polyfilled environments.
  * Ensures non-cyclical serialized object.
  */
 cache.toJSON = function () {
-	var items = new Array(this.items.length);
-	var item;
-	for (var i = items.length; i--;) {
-		item = this.items[i];
-		items[i] = {
-			key:     item.key,
-			meta:    item.meta,
-			value:   item.value,
-			expires: item.expires,
-			refresh: item.refresh,
-		};
-	}
+  var items = new Array(this.items.length)
+  var item
+  for (var i = items.length; i--;) {
+    item = this.items[i]
+    items[i] = {
+      key: item.key,
+      meta: item.meta,
+      value: item.value,
+      expires: item.expires,
+      refresh: item.refresh
+    }
+  }
 
-	return {
-		id:           this.id,
-		max:          this.max,
-		lastModified: this.lastModified,
-		items:        items
-	};
-};
+  return {
+    id: this.id,
+    max: this.max,
+    lastModified: this.lastModified,
+    items: items
+  }
+}

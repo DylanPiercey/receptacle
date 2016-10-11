@@ -1,10 +1,12 @@
-## Directory-based project format
+# Sublime
 *.sublime*
 
 # OSX
 *.DS_Store
 
-node_modules
+# Code Coverage
+coverage
 
-# Compiled JS
-bin
+# NPM
+node_modules
+npm-debug.log
