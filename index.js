@@ -89,8 +89,9 @@ cache.set = function (key, value, options) {
 
   if (oldRecord) {
     // Replace an old key.
-    clearInterval(oldRecord.timeout)
+    clearTimeout(oldRecord.timeout)
     this.items.splice(this.items.indexOf(oldRecord), 1, record)
+    this.items[key] = record
   } else {
     // Remove least used item if needed.
     if (this.items.length >= this.max) this.delete(this.items[0].key)
