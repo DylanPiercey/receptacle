@@ -217,5 +217,12 @@ describe('Receptacle', function () {
       assert.equal(cache.id, copy.id)
       assert.equal(cache.items.length, copy.items.length)
     })
+
+    it('should convert preserve max option', function () {
+      var cache = new Receptacle({ max: 50 })
+      var json = cache.toJSON()
+
+      assert.equal(cache.max, json.max)
+    })
   })
 })

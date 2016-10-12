@@ -18,7 +18,7 @@ function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++) }
 function Receptacle (options) {
   options = options || {}
   this.id = options.id || getUID()
-  this.max = options.max
+  this.max = options.max || Infinity
   this.items = options.items || []
   this.size = this.items.length
   this.lastModified = new Date(options.lastModified || new Date())
@@ -176,7 +176,7 @@ cache.toJSON = function () {
 
   return {
     id: this.id,
-    max: this.max,
+    max: isFinite(this.max) ? this.max : undefined,
     lastModified: this.lastModified,
     items: items
   }
