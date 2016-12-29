@@ -29,6 +29,7 @@ function Receptacle (options) {
     ttl = new Date(item.expires) - new Date()
     this.items[item.key] = item
     if (ttl > 0) this.expire(item.key, ttl)
+    else if (ttl <= 0) this.delete(item.key)
   }
 }
 
