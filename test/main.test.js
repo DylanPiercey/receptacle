@@ -169,6 +169,20 @@ describe('Receptacle', function () {
         cache.expire('a', true)
       })
     })
+
+    it('should should remove expired items when rehydrated', function (done) {
+      var cache = new Receptacle()
+      cache.set('b', 2)
+      cache.set('a', 1, { ttl: '100 ms' })
+      var serialized = cache.toJSON()
+
+      setTimeout(function () {
+        cache = new Receptacle(serialized)
+        assert.equal(cache.get('a'), null)
+        assert.equal(cache.get('b'), 2)
+        done()
+      }, 200)
+    })
   })
 
   describe('#delete', function () {
