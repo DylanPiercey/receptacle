@@ -55,7 +55,7 @@ npm install receptacle
 <script type="text/javascript" src="receptacle.js"></script>
 <script>
     define(['receptacle'], function (receptacle) {...}) // AMD
-    window.receptacle // Global rill if no module system in place.
+    window.receptacle // Global receptacle if no module system in place.
 </script>
 ```
 
