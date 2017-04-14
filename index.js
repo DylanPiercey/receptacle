@@ -20,6 +20,7 @@ function Receptacle (options) {
   this.id = options.id || getUID()
   this.max = options.max || Infinity
   this.items = options.items || []
+  this._lookup = {}
   this.size = this.items.length
   this.lastModified = new Date(options.lastModified || new Date())
 
@@ -27,7 +28,7 @@ function Receptacle (options) {
   for (var item, ttl, i = this.items.length; i--;) {
     item = this.items[i]
     ttl = new Date(item.expires) - new Date()
-    this.items[item.key] = item
+    this._lookup[item.key] = item
     if (ttl > 0) this.expire(item.key, ttl)
     else if (ttl <= 0) this.delete(item.key)
   }
@@ -41,7 +42,7 @@ function Receptacle (options) {
  * @return {Boolean}
  */
 cache.has = function (key) {
-  return key in this.items
+  return key in this._lookup
 }
 
 /**
@@ -52,7 +53,7 @@ cache.has = function (key) {
  */
 cache.get = function (key) {
   if (!this.has(key)) return null
-  var record = this.items[key]
+  var record = this._lookup[key]
   // Update expiry for "refresh" keys
   if (record.refresh) this.expire(key, record.refresh)
   // Move to front of the line.
@@ -69,7 +70,7 @@ cache.get = function (key) {
  */
 cache.meta = function (key) {
   if (!this.has(key)) return null
-  var record = this.items[key]
+  var record = this._lookup[key]
   if (!('meta' in record)) return null
   return record.meta
 }
@@ -83,8 +84,8 @@ cache.meta = function (key) {
  * @return {Receptacle}
  */
 cache.set = function (key, value, options) {
-  var oldRecord = this.items[key]
-  var record = this.items[key] = { key: key, value: value }
+  var oldRecord = this._lookup[key]
+  var record = this._lookup[key] = { key: key, value: value }
   // Mark cache as modified.
   this.lastModified = new Date()
 
@@ -94,7 +95,7 @@ cache.set = function (key, value, options) {
     this.items.splice(this.items.indexOf(oldRecord), 1, record)
   } else {
     // Remove least used item if needed.
-    if (this.items.length >= this.max) this.delete(this.items[0].key)
+    if (this.size >= this.max) this.delete(this.items[0].key)
     // Add a new key.
     this.items.unshift(record)
     this.size++
@@ -119,12 +120,12 @@ cache.set = function (key, value, options) {
  * @return {Receptacle}
  */
 cache.delete = function (key) {
-  var record = this.items[key]
+  var record = this._lookup[key]
   if (!record) return false
   this.lastModified = new Date()
   this.items.splice(this.items.indexOf(record), 1)
   clearTimeout(record.timeout)
-  delete this.items[key]
+  delete this._lookup[key]
   this.size--
   return this
 }
@@ -138,7 +139,7 @@ cache.delete = function (key) {
  */
 cache.expire = function (key, ttl) {
   var ms = ttl || 0
-  var record = this.items[key]
+  var record = this._lookup[key]
   if (!record) return this
   if (typeof ms === 'string') ms = toMS(ttl)
   if (typeof ms !== 'number') throw new TypeError('Expiration time must be a string or number.')

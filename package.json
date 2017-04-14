@@ -1,21 +1,21 @@
 {
   "name": "receptacle",
   "description": "In memory cache lru cache with ttl support.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/receptacle/issues",
   "dependencies": {
-    "ms": "^0.7.2"
+    "ms": "^1.0.0"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^14.3.0",
     "bundle-collapser": "^1.2.1",
-    "coveralls": "^2.11.15",
+    "coveralls": "^2.13.0",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "snazzy": "^5.0.0",
-    "standard": "^8.6.0",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.1",
     "uglifyjs": "^2.4.10"
   },
   "files": [
