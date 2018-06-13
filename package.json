@@ -19,7 +19,8 @@
     "uglifyjs": "^2.4.11"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "homepage": "https://github.com/DylanPiercey/receptacle",
   "keywords": [
