@@ -97,7 +97,9 @@ describe('Receptacle', function () {
 
       assert.equal(cache.size, cache.items.length)
       assert.equal(cache.size, 3)
-      assert.equal(cache.items[2].key, 'b')
+      assert.equal(cache.items.map(function (item) {
+        return item.key
+      }).join(','), 'c,d,b')
     })
   })
 
