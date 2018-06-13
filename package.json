@@ -44,6 +44,7 @@
     "test": "npm run lint && make test",
     "test-ci": "npm run lint && make test-ci"
   },
+  "typings": "./index.d.ts",
   "standard": {
     "globals": [
       "GIT_COMMIT",
