@@ -97,7 +97,7 @@ cache.set = function (key, value, options) {
     // Remove least used item if needed.
     if (this.size >= this.max) this.delete(this.items[0].key)
     // Add a new key.
-    this.items.unshift(record)
+    this.items.push(record)
     this.size++
   }
 
