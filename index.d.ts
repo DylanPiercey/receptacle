@@ -40,7 +40,7 @@ declare class Receptacle<T, X = undefined> {
     public has(key: string): boolean;
     public get(key: string): T|null;
     public meta(key: string): X|undefined;
-    public set(key: string, value: T, options?: Receptacle.SetOptions<X>): Receptacle;
+    public set(key: string, value: T, options?: Receptacle.SetOptions<X>): Receptacle<T, X>;
     public delete(key: string): void;
     public expire(key: string, ms: number): void;
     public clear(): void;
