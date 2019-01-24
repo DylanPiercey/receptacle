@@ -1,4 +1,4 @@
-namespace Receptacle {
+declare namespace Receptacle {
     export interface Options<T> {
         id?: number|string;
         max?: number;
@@ -31,7 +31,7 @@ namespace Receptacle {
     }
 }
 
-class Receptacle<T, X = undefined> {
+declare class Receptacle<T, X = undefined> {
     constructor(options?: Receptacle.Options<T>);
     public id: number|string;
     public max: number;
