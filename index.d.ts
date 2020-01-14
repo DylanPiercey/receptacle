@@ -34,7 +34,7 @@ namespace Receptacle {
         key: string;
     } 
 
-    export enum Event {
+    export enum Events {
         eviction,
     } 
 }
