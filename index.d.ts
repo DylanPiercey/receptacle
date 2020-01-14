@@ -29,6 +29,14 @@ namespace Receptacle {
         key: string;
         value: T;
     }
+
+    export interface Handler {
+        key: string;
+    } 
+
+    export enum Event {
+        eviction,
+    } 
 }
 
 class Receptacle<T, X = undefined> {
@@ -37,6 +45,7 @@ class Receptacle<T, X = undefined> {
     public max: number;
     public items: Receptacle.Items<T>[];
     public size: number;
+    public on(event: Receptacle.Event, handler: Receptacle.Handler): void;
     public has(key: string): boolean;
     public get(key: string): T|null;
     public meta(key: string): X|undefined;

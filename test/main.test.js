@@ -34,6 +34,17 @@ describe('Receptacle', function () {
     })
   })
 
+  describe('#on', function () {
+    it('should emit an expiration event', function (done) {
+      var cache = new Receptacle()
+      cache.on('eviction', function (key) {
+        console.log('evicted: ' + key)
+        // done()
+      })
+      cache.set('a', 1, { ttl: 5000 })
+    })
+  })
+
   describe('#meta', function () {
     it('should return a set key', function () {
       var cache = new Receptacle()
