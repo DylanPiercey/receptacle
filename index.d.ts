@@ -30,9 +30,7 @@ namespace Receptacle {
         value: T;
     }
 
-    export interface Handler {
-        key: string;
-    } 
+    export Handler(key: string) : void
 
     export enum Events {
         eviction,

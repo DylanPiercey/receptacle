@@ -39,9 +39,9 @@ describe('Receptacle', function () {
       var cache = new Receptacle()
       cache.on('eviction', function (key) {
         console.log('evicted: ' + key)
-        // done()
+        done()
       })
-      cache.set('a', 1, { ttl: 5000 })
+      cache.set('a', 1, { ttl: 200 })
     })
   })
 
