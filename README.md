@@ -105,7 +105,7 @@ var newCacheFromJSON = new Receptacle(JSON.parse(serialized));
 Create a new cache.
 
 ###`#id`
-Each cache is assigned a unique id for organizing, you can optionally provide an id during instanciation.
+Each cache is assigned a unique id for organizing, you can optionally provide an id during instantiation.
 
 ###`#max`
 Get the maximum size of the cache (default of Infinity).
@@ -117,7 +117,7 @@ Get the current number of items in the cache.
 Check if a key is in the cache, even if it's undefined.
 
 ###`#get(key)`
-Retreive a key from the cache.
+Retrieve a key from the cache.
 
 ###`#meta(key)`
 If a meta option was used with setting an item in the cache it will be returned.
