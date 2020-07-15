@@ -132,6 +132,11 @@ Immediately remove a key from the cache.
 ###`#expire(key, [ms=0])`
 Update the expire time for a key. You can also use any valid [ms](https://github.com/rauchg/ms.js) string for a timeout.
 
+###`#on('expiration', function)`
+Add a callback for handling expiration events. The handler will be passed a single parameter,
+the key name that was just expired. Note, the handler is called AFTER the key has been removed
+from the Receptacle.
+
 ###`#clear()`
 Remove all keys from the cache.
 

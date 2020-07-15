@@ -3,7 +3,9 @@
 module.exports = Receptacle
 var toMS = require('ms')
 var cache = Receptacle.prototype
+console.dir(cache)
 var counter = new Date() % 1e9
+var EventEmitter = require('events')
 
 function getUID () { return (Math.random() * 1e9 >>> 0) + (counter++) }
 
@@ -21,6 +23,7 @@ function Receptacle (options) {
   this.max = options.max || Infinity
   this.items = options.items || []
   this._lookup = {}
+  this._events = new EventEmitter()
   this.size = this.items.length
   this.lastModified = new Date(options.lastModified || new Date())
 
@@ -32,6 +35,17 @@ function Receptacle (options) {
     if (ttl > 0) this.expire(item.key, ttl)
     else if (ttl <= 0) this.delete(item.key)
   }
+}
+
+/**
+ * Currently only the evict type is supported.
+ *
+ * @param {String} event - the event name.
+ * @param {Receptacle.Event} handler - the event handler
+ * @return {Boolean}
+ */
+cache.on = function (event, handler) {
+  return this._events.on(event, handler.bind(this))
 }
 
 /**
@@ -144,7 +158,10 @@ cache.expire = function (key, ttl) {
   if (typeof ms === 'string') ms = toMS(ttl)
   if (typeof ms !== 'number') throw new TypeError('Expiration time must be a string or number.')
   clearTimeout(record.timeout)
-  record.timeout = setTimeout(this.delete.bind(this, record.key), ms)
+  record.timeout = setTimeout(function () {
+    this.delete(record.key)
+    this._events.emit('eviction', record.key)
+  }.bind(this), ms)
   record.expires = Number(new Date()) + ms
   return this
 }
