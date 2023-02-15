@@ -1,4 +1,4 @@
-namespace Receptacle {
+declare namespace Receptacle {
     export interface Options<T> {
         id?: number|string;
         max?: number;
@@ -31,7 +31,7 @@ namespace Receptacle {
     }
 }
 
-class Receptacle<T, X = undefined> {
+declare class Receptacle<T, X = undefined> {
     constructor(options?: Receptacle.Options<T>);
     public id: number|string;
     public max: number;
@@ -40,9 +40,9 @@ class Receptacle<T, X = undefined> {
     public has(key: string): boolean;
     public get(key: string): T|null;
     public meta(key: string): X|undefined;
-    public set(key: string, value: T, options?: Receptacle.SetOptions<X>): Receptacle;
+    public set(key: string, value: T, options?: Receptacle.SetOptions<X>): Receptacle<T, X>;
     public delete(key: string): void;
-    public expire(key: string, ms: number = 0): void;
+    public expire(key: string, ms?: number): void;
     public clear(): void;
     public toJSON(): Receptacle.Export<T, X>;
 }
