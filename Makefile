@@ -7,6 +7,7 @@ TESTS_IN = test/*.test.js
 
 # Tools
 standard = $(BIN)/standard
+tsc = $(BIN)/tsc
 snazzy = $(BIN)/snazzy
 coveralls = $(BIN)/coveralls
 istanbul = $(BIN)/istanbul
@@ -18,6 +19,10 @@ uglifyjs = $(BIN)/uglifyjs
 # Run standard linter.
 lint:
 	$(standard) --verbose | $(snazzy)
+
+# Run type checking..
+type-check:
+	$(tsc)
 
 # Save code coverage to coveralls
 coveralls:

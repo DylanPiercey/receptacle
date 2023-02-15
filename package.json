@@ -16,6 +16,7 @@
     "mocha": "^5.2.0",
     "snazzy": "^7.1.1",
     "standard": "^11.0.1",
+    "typescript": "^4.9.5",
     "uglifyjs": "^2.4.11"
   },
   "files": [
@@ -42,8 +43,9 @@
     "build": "make build",
     "coveralls": "make coveralls",
     "lint": "make lint",
-    "test": "npm run lint && make test",
-    "test-ci": "npm run lint && make test-ci"
+    "type-check": "make type-check",
+    "test": "npm run lint && npm run type-check && make test",
+    "test-ci": "npm run lint && npm run type-check && make test-ci"
   },
   "typings": "./index.d.ts",
   "standard": {
